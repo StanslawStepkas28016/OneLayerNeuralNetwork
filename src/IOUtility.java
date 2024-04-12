@@ -5,16 +5,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IOUtility {
-    private final String targetDirectory;
+    private final String mainDirectory;
 
-    public IOUtility(String targetDirectory) {
-        this.targetDirectory = targetDirectory;
+    public IOUtility(String mainDirectory) {
+        this.mainDirectory = mainDirectory;
     }
 
-    public List<String> readDirectory() {
+    public List<String> readDirectory(String targetDirectory) {
         final List<String> fileContents = new ArrayList<>();
+
         try {
-            Files.walkFileTree(Path.of(this.targetDirectory), new SimpleFileVisitor<>() {
+            Files.walkFileTree(Path.of(STR."\{mainDirectory}/\{targetDirectory}"), new SimpleFileVisitor<>() {
                 @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                     final String string = Files.readString(file);
