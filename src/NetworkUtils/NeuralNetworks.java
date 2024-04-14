@@ -29,7 +29,10 @@ public class NeuralNetworks {
         return trainers;
     }
 
-    public static void trainPerceptronsWithTrainSets(ArrayList<Perceptron> perceptrons, ArrayList<Trainer> trainers, List<LanguageObject> trainSets) {
-
+    public static void trainPerceptronsWithTrainSets(ArrayList<Perceptron> perceptrons,
+                                                     ArrayList<Trainer> trainers,
+                                                     List<LanguageObject> trainSets) {
+        // Każdy perceptron jest trenowany każdym językiem, ale zmienia się targetLanguage,
+        // który będzie determinował
     }
 }
