@@ -1,6 +1,7 @@
 package DataUtils;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class IOUtility {
                 @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                     final String parentName = file.getParent().getFileName().toString();
-                    final String string = Files.readString(file);
+                    final String string = Files.readString(file, StandardCharsets.UTF_8);
 
                     languageMapper.putIfAbsent(parentName, new ArrayList<>());
                     languageMapper.get(parentName).add(string);
