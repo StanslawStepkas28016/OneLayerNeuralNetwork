@@ -21,7 +21,9 @@ public class UserInterface {
 
         final int layersQuantity = trainSets.size(); // Ilość warstw sieci neuronowej.
         final ArrayList<Perceptron> perceptrons = NeuralNetworks.assignPerceptonsToNetwork(layersQuantity, learnRate); // Przypisanie perceptronów do sieci.
-        final List<Perceptron> trainedPerceptrons = NeuralNetworks.trainPerceptronsWithTrainSets(perceptrons, new Trainer(), trainSets, 10); // Lista wytrenowanych perceptronów (szerszy opis w klasie NeuralNetworks).
+        final List<Perceptron> trainedPerceptrons = NeuralNetworks.trainPerceptronsWithTrainSets(perceptrons, new Trainer(), trainSets, 1); // Lista wytrenowanych perceptronów (szerszy opis w klasie NeuralNetworks).
+
+        printDoubleRatiosForLanguages(trainSets);
 
         final List<LanguageObject> testSets = ioUtility.readDirectories(testSetPath); // Czytanie katalogu test-set.
         LanguageObject.assignDoubleRatiosForLanguages(testSets); // Zamiana znaków na wektory wag liter w alfabecie.

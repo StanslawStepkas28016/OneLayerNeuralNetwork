@@ -27,6 +27,9 @@ public class Tester {
                 }
             }
 
+            // UCZENIE (UDPATE )
+            //
+
             // Największa wartość y określa nam dany język (maximum selector).
             // Dodać trenowanie dla jednego perceptronu, jeżeli nie ma max val w mapie... (!)
             System.out.println(STR."FOR DATA : \{testSet.getLanguage()}, LANG COMPUTED : \{langToYMap}");

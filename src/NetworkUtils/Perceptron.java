@@ -19,7 +19,8 @@ public class Perceptron {
 
         // Inicjalizacja wektora wag, wagami z zakresu <-5,5>.
         for (int i = 0; i < weights.length; i++) {
-            weights[i] = random.nextDouble(-5, 5);
+            weights[i] = random.nextDouble(-0.1, 0.1);
+//            weights[i] = random.nextDouble(-5, 5);
         }
 
     }

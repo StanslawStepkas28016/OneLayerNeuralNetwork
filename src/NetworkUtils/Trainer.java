@@ -20,8 +20,9 @@ public class Trainer {
             for (double[] inputVector : doublesForLanguage) {
                 double y = 0;
 
-                for (int i = 0; i < inputVector.length; i++) {
-                    y += (inputVector[i] * perceptron.weights[i]);
+                final double[] normalizedInputVector = normalizeVector(inputVector);
+                for (int i = 0; i < normalizedInputVector.length; i++) {
+                    y += (normalizedInputVector[i] * perceptron.weights[i]);
                 }
                 y -= perceptron.tVal;
 
@@ -32,6 +33,11 @@ public class Trainer {
                 }
             }
         }
+    }
+
+    private double[] normalizeVector(double[] vector) {
+        double norm = Math.sqrt(Arrays.stream(vector).map(v -> v * v).sum());
+        return Arrays.stream(vector).map(v -> v / norm).toArray();
     }
 
 }
