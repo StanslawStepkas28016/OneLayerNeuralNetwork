@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class IOUtility {
@@ -11,15 +12,20 @@ public class IOUtility {
         this.mainDirectory = mainDirectory;
     }
 
-    public List<String> readDirectory(String targetDirectory) {
-        final List<String> fileContents = new ArrayList<>();
+    public List<LanguageObject> readDirectories() {
+        final List<LanguageObject> languageObjects = new ArrayList<>();
+        final HashMap<String, List<String>> languageMapper = new HashMap<>();
 
         try {
-            Files.walkFileTree(Path.of(STR."\{mainDirectory}/\{targetDirectory}"), new SimpleFileVisitor<>() {
+            Files.walkFileTree(Path.of(mainDirectory), new SimpleFileVisitor<>() {
+
                 @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                    final String parentName = file.getParent().getFileName().toString();
                     final String string = Files.readString(file);
-                    fileContents.add(string);
+
+                    languageMapper.putIfAbsent(parentName, new ArrayList<>());
+                    languageMapper.get(parentName).add(string);
 
                     return FileVisitResult.CONTINUE;
                 }
@@ -28,6 +34,8 @@ public class IOUtility {
             throw new RuntimeException(e);
         }
 
-        return fileContents;
+        languageMapper.forEach((language, files) -> languageObjects.add(new LanguageObject(language, files)));
+
+        return languageObjects;
     }
 }

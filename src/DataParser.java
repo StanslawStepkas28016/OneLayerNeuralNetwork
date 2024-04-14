@@ -5,25 +5,49 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class DataParser {
-    public List<HashMap<String, Double>> processDocs(List<String> documents) {
-        // Mapa wystąpień.
-        List<HashMap<String, Double>> list = new ArrayList<>();
+    public static HashMap<String, Integer> getAlphabetMap() {
+        HashMap<String, Integer> alphabetMap = new HashMap<>();
+        char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+        int index = 0;
+
+        for (char letter : alphabet) {
+            alphabetMap.put(String.valueOf(letter), index++);
+        }
+
+        return alphabetMap;
+    }
+
+    public static List<double[]> processDocs(List<String> documents) {
+        // Lista list (wektor wektorów), dla wystąpień liter w danym pliku.
+        List<double[]> vectors = new ArrayList<>();
+
+        // Klucz (litera), Wartość (indeks w wektorze) a -> [0], b -> [1].
+        HashMap<String, Integer> alphabetMap = getAlphabetMap();
 
         // Filtracja tekstów.
         for (String docContents : documents) {
-            HashMap<String, Double> counts = new HashMap<>();
-
             Pattern pattern = Pattern.compile("[A-za-z]");
             Matcher matcher = pattern.matcher(docContents);
 
+            final double[] vector = new double[26];
+
             while (matcher.find()) {
+                // Litera z reggexa.
                 String letter = matcher.group().toLowerCase();
-                counts.put(letter, counts.getOrDefault(letter, 0.0) + 1.0 / 26.0);
+
+                // Indeks, na którym znajduje się dana litera w wektorze.
+                final Integer vectorIndex = alphabetMap.get(letter);
+
+                vector[vectorIndex] += 1.0;
             }
 
-            list.add(counts);
+            for (int i = 0; i < vector.length; i++) {
+                vector[i] /= 26.0;
+            }
+
+            vectors.add(vector);
         }
 
-        return list;
+        return vectors;
     }
 }
