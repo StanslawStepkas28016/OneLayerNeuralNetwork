@@ -21,18 +21,13 @@ public class UserInterface {
 
         final int layersQuantity = trainSets.size(); // Ilość warstw sieci neuronowej.
         final ArrayList<Perceptron> perceptrons = NeuralNetworks.assignPerceptonsToNetwork(layersQuantity, learnRate); // Przypisanie perceptronów do sieci.
-        final List<Perceptron> trainedPerceptrons = NeuralNetworks.trainPerceptronsWithTrainSets(perceptrons, new Trainer(), trainSets, 1); // Lista wytrenowanych perceptronów (szerszy opis w klasie NeuralNetworks).
+        final List<Perceptron> trainedPerceptrons = NeuralNetworks.trainPerceptronsWithTrainSets(perceptrons, new Trainer(), trainSets, 100); // Lista wytrenowanych perceptronów (szerszy opis w klasie NeuralNetworks).
 
         printDoubleRatiosForLanguages(trainSets);
 
         final List<LanguageObject> testSets = ioUtility.readDirectories(testSetPath); // Czytanie katalogu test-set.
         LanguageObject.assignDoubleRatiosForLanguages(testSets); // Zamiana znaków na wektory wag liter w alfabecie.
         Tester.testForTestSet(trainedPerceptrons, testSets); // Przeprowadzenie testu dla zbioru testowego.
-
-
-        //printLanguageObjects(trainSet);
-        //printDoubleRatiosForLanguages(trainSet);
-
     }
 
     private static void printDoubleRatiosForLanguages(List<LanguageObject> languageObjects) {

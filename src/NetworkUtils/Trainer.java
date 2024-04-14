@@ -29,7 +29,7 @@ public class Trainer {
                 // Sprawdzenie, czy wymagane jest użycie reguły delta.
                 int net = y >= 0 ? 1 : 0;
                 if (net != expectedY) {
-                    perceptron.deltaRule(net, expectedY, inputVector);
+                    perceptron.deltaRule(net, expectedY, normalizedInputVector);
                 }
             }
         }
