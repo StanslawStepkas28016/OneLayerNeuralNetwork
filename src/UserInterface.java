@@ -1,32 +1,45 @@
-import java.util.Arrays;
+import DataUtils.DataParser;
+import DataUtils.IOUtility;
+import DataUtils.LanguageObject;
+import NetworkUtils.NeuralNetworks;
+import NetworkUtils.Perceptron;
+import NetworkUtils.Trainer;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class UserInterface {
     public static void main(String[] args) {
-        // Czytanie plików.
-        final IOUtility ioUtility = new IOUtility("files");
-        final List<LanguageObject> languageObjects = ioUtility.readDirectories();
+        final String trainSetPath = args[0]; // Zbiór treningowy.
+        final String testSetPath = args[1]; // Zbiór testowy.
+        final double learnRate = Double.parseDouble(args[2]); // Stała uczenia.
 
-//        printLanguageObjects(languageObjects);
+        final IOUtility ioUtility = new IOUtility(trainSetPath); // Obiekt IOUtility.
+        final List<LanguageObject> trainSets = ioUtility.readDirectories(); // Czytanie katalogu train-set.
+        LanguageObject.assignDoubleRatiosForLanguages(trainSets); // Zamiana znaków na wektory wag liter w alfabecie.
 
+        final int layersQuantity = trainSets.size(); // Ilość warstw sieci neuronowej.
+        final ArrayList<Perceptron> perceptrons = NeuralNetworks.assignPerceptonsToNetwork(layersQuantity, learnRate); // Przypisanie perceptronów do sieci.
+
+        final ArrayList<Trainer> trainers = NeuralNetworks.assignUntrainedTrainers(trainSets.size()); // Utworzenie trainerów dla sieci.
+        NeuralNetworks.trainPerceptronsWithTrainSets(perceptrons, trainers, trainSets); // Trenowanie perceptronów (szerszy opis w klasie NeuralNetworks).
+
+        //printLanguageObjects(trainSet);
+        //printDoubleRatiosForLanguages(trainSet);
+
+    }
+
+
+    private static void printDoubleRatiosForLanguages(List<LanguageObject> languageObjects) {
         for (LanguageObject languageObject : languageObjects) {
-            final List<String> stringsFromFiles = languageObject.getStringsFromFiles();
-            final List<double[]> doubles = DataParser.processDocs(stringsFromFiles);
-            languageObject.setDoublesForFiles(doubles);
-            System.out.println(languageObject.toStringDoubles());
+            System.out.println(languageObject.doubleRatiosToString());
         }
     }
 
     private static void printLanguageObjects(List<LanguageObject> languageObjects) {
         for (LanguageObject languageObject : languageObjects) {
             System.out.println(languageObject);
-        }
-    }
-
-    private static void printRatios(List<double[]> langRatio, String lang) {
-        System.out.print(STR."\{lang} : ");
-        for (double[] doubles : langRatio) {
-            System.out.println(Arrays.toString(doubles));
         }
     }
 
