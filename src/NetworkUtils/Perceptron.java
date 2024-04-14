@@ -6,11 +6,7 @@ public class Perceptron {
     private final Integer dataVectorSize;
     public final Double learnRate;
     public Double tVal;
-    private Integer hitZero = 0;
-    private Integer hitOne = 0;
-    private Integer totalZeroDataSize = 0;
-    private Integer totalOneDataSize = 0;
-    private Integer totalDataSize = 0;
+    private String language;
     public double[] weights;
 
     public Perceptron(Integer dataVectorSize, Double learnRate) {
@@ -27,6 +23,7 @@ public class Perceptron {
         }
 
     }
+
     /* Metoda służy do zastosowania reguły DELTA. */
     public void deltaRule(Integer receivedValue, Integer expectedValue, double[] inputVector) {
         double[] oldWeights = weights;
@@ -48,18 +45,16 @@ public class Perceptron {
         weights = newWeights;
     }
 
-    /* Metoda wyświetla dokładności klasyfikacji, resetując dane do następnych potoków.*/
-    public void displayAccuracy() {
-        System.out.println(STR."Dokładność (dla obu klas) : \{(hitOne + hitZero) / (double) totalDataSize}.");
-        System.out.println(STR."Dokładność  (dla klasy 0) : \{hitZero / (double) totalZeroDataSize}.");
-        System.out.println(STR."Dokładność  (dla klasy 1) : \{hitOne / (double) totalOneDataSize}.");
-        System.out.println(STR."Aktualny parametr learnRate : \{learnRate}.");
+    public void setLanguage(String language) {
+        this.language = language;
+    }
 
-        // Reset danych, do kolejnych obliczeń, przy zapętleniu działania programu.
-        hitZero = 0;
-        hitOne = 0;
-        totalDataSize = 0;
-        totalZeroDataSize = 0;
-        totalOneDataSize = 0;
+    public String getLanguage() {
+        return language;
+    }
+
+    @Override
+    public String toString() {
+        return STR."Perceptron{weights=\{Arrays.toString(weights)}\{'}'}";
     }
 }

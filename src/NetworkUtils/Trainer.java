@@ -6,6 +6,9 @@ import java.util.*;
 
 public class Trainer {
     /* Każdy perceptron jest uczony danymi z każdego języka */
+
+    // Dodać normalizację wektorów!!
+
     public void train(List<LanguageObject> allLanguages, Perceptron perceptron, String targetLanguage) {
         for (LanguageObject lang : allLanguages) {
             final List<double[]> doublesForLanguage = lang.getDoublesForFiles();

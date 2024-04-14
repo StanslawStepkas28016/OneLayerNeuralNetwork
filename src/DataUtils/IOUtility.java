@@ -8,13 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class IOUtility {
-    private final String mainDirectory;
 
-    public IOUtility(String mainDirectory) {
-        this.mainDirectory = mainDirectory;
-    }
-
-    public List<LanguageObject> readDirectories() {
+    public List<LanguageObject> readDirectories(String mainDirectory) {
         final List<LanguageObject> languageObjects = new ArrayList<>();
         final HashMap<String, List<String>> languageMapper = new HashMap<>();
 
