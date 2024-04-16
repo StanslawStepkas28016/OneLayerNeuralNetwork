@@ -7,7 +7,6 @@ import NetworkUtils.Tester;
 import NetworkUtils.Trainer;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -38,10 +37,11 @@ public class UserInterface {
 
             final ArrayList<String> strings = new ArrayList<>();
             strings.add(text);
-            ArrayList<LanguageObject> userTestSet = new ArrayList<>();
-            userTestSet.add(new LanguageObject("user_lang", strings));
-            LanguageObject.assignDoubleRatiosForLanguages(userTestSet);
-            Tester.testForTestSet(trainedPerceptrons, userTestSet); // Test na zbiorze od użytkownika.
+
+            ArrayList<LanguageObject> userTestSets = new ArrayList<>();
+            userTestSets.add(new LanguageObject("user_lang", strings));
+            LanguageObject.assignDoubleRatiosForLanguages(userTestSets);
+            Tester.testForTestSet(trainedPerceptrons, userTestSets); // Test na zbiorze od użytkownika.
 
             final Scanner scInt = new Scanner(System.in);
             System.out.println("Czy chcesz podać tekst jeszcze raz (1 - Tak, 0 - Nie)?");
