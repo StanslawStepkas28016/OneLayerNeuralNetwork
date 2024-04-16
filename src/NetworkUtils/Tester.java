@@ -2,9 +2,7 @@ package NetworkUtils;
 
 import DataUtils.LanguageObject;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Tester {
     public static void testForTestSet(List<Perceptron> trainedPerceptrons, List<LanguageObject> testSets) {
@@ -27,13 +25,28 @@ public class Tester {
                 }
             }
 
-            // UCZENIE (UDPATE )
             //
-
             // Największa wartość y określa nam dany język (maximum selector).
             // Dodać trenowanie dla jednego perceptronu, jeżeli nie ma max val w mapie... (!)
             System.out.println(STR."FOR DATA : \{testSet.getLanguage()}, LANG COMPUTED : \{langToYMap}");
         }
-
     }
+
+    private static boolean isMapGood(HashMap<String, Integer> langToYMap) {
+        final List<Integer> collect = langToYMap.values().stream().toList();
+        int oneQuantity = 0;
+        for (Integer i : collect) {
+            if (i == 1) {
+                oneQuantity++;
+            }
+        }
+
+        return oneQuantity == 1;
+    }
+
+    private static double[] normalizeVector(double[] vector) {
+        double norm = Math.sqrt(Arrays.stream(vector).map(v -> v * v).sum());
+        return Arrays.stream(vector).map(v -> v / norm).toArray();
+    }
+
 }
