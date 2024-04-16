@@ -25,7 +25,7 @@ public class UserInterface {
         final ArrayList<Perceptron> perceptrons = NeuralNetworks.assignPerceptonsToNetwork(layersQuantity, learnRate); // Przypisanie perceptronów do sieci.
         final List<Perceptron> trainedPerceptrons = NeuralNetworks.trainPerceptronsWithTrainSets(perceptrons, new Trainer(), trainSets, 10); // Lista wytrenowanych perceptronów (szerszy opis w klasie NeuralNetworks).
 
-        printDoubleRatiosForLanguages(trainSets);
+        //printDoubleRatiosForLanguages(trainSets);
 
         final List<LanguageObject> testSets = ioUtility.readDirectories(testSetPath); // Czytanie katalogu test-set.
         LanguageObject.assignDoubleRatiosForLanguages(testSets); // Zamiana znaków na wektory wag liter w alfabecie.
@@ -39,23 +39,18 @@ public class UserInterface {
 
             final ArrayList<String> strings = new ArrayList<>();
             strings.add(text);
-
             ArrayList<LanguageObject> userTestSet = new ArrayList<>();
             userTestSet.add(new LanguageObject("user_lang", strings));
+            LanguageObject.assignDoubleRatiosForLanguages(userTestSet);
+            Tester.testForTestSet(trainedPerceptrons, userTestSet); // Test na zbiorze od użytkownika.
 
-
-            Tester.testForTestSet(trainedPerceptrons, userTestSet);
-
-
-            System.out.println("Czy chcesz podać tekst jeszcze raz?");
+            System.out.println("Czy chcesz podać tekst jeszcze raz (1 - Tak, 0 - Nie)?");
             final int i = sc.nextInt();
 
             if (i == 1) {
                 break;
             }
         } while (true);
-
-
     }
 
     private static void printDoubleRatiosForLanguages(List<LanguageObject> languageObjects) {
