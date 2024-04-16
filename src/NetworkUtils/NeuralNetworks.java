@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NeuralNetworks {
-    public static List<LanguageObject> backupTrainSets;
 
     /* Metoda zwraca "puste" (bez ustawionego języka i zmodyfikowanych wag) obiekty klasy Perceptron. */
     public static ArrayList<Perceptron> assignPerceptonsToNetwork(int layersQuantity, double learnRate) {
@@ -43,6 +42,8 @@ public class NeuralNetworks {
 
         return perceptrons;
     }
+
+    public static List<LanguageObject> backupTrainSets;
 
     public static ArrayList<Perceptron> trainPerceptronsWithTrainSetsWhenOutNotClear(ArrayList<Perceptron> perceptrons, int epoqueCount) {
         for (int j = 0; j < epoqueCount; j++) {
