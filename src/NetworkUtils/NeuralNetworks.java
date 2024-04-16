@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NeuralNetworks {
+    public static List<LanguageObject> backupTrainSets;
+
     /* Metoda zwraca "puste" (bez ustawionego języka i zmodyfikowanych wag) obiekty klasy Perceptron. */
     public static ArrayList<Perceptron> assignPerceptonsToNetwork(int layersQuantity, double learnRate) {
         final ArrayList<Perceptron> neuralNetwork = new ArrayList<>();
@@ -20,10 +22,9 @@ public class NeuralNetworks {
 
     /* Metoda trenuje każdy perceptron, korzystając ze wszystkich języków, jednocześnie zwracając uwagę na targetLang,
      * który, po odpowiednim spreparowaniu determinuje, czy będzie wykonywana deltaRule dla wag perceptronu. */
-    public static List<Perceptron> trainPerceptronsWithTrainSets(ArrayList<Perceptron> perceptrons,
-                                                                 Trainer trainer,
-                                                                 List<LanguageObject> allLangTrainSets,
-                                                                 int epoqueCount) {
+    public static ArrayList<Perceptron> trainPerceptronsWithTrainSets(ArrayList<Perceptron> perceptrons,
+                                                                      List<LanguageObject> allLangTrainSets,
+                                                                      int epoqueCount) {
         // Każdy perceptron jest trenowany każdym językiem (train setem, dla każdego języka),
         // ale używany jest target language, który będzie determinował, czy będzie wykonywana reguła delta.
         for (int j = 0; j < epoqueCount; j++) {
@@ -35,7 +36,7 @@ public class NeuralNetworks {
                     singlePerceptron.setLanguage(targetLang); // Ustawienie języka, który będzie językiem głównym danego perceptronu (wykonywane tylko raz).
                 }
 
-                trainer.train(allLangTrainSets, singlePerceptron, targetLang);
+                Trainer.train(allLangTrainSets, singlePerceptron, targetLang);
                 i++;
             }
         }
@@ -43,11 +44,15 @@ public class NeuralNetworks {
         return perceptrons;
     }
 
-    public static void trainOnePerceptronWithTrainSets(Perceptron perceptron, Trainer trainer, List<LanguageObject> allLangTrainSets, int epoqueCount) {
+    public static ArrayList<Perceptron> trainPerceptronsWithTrainSetsWhenOutNotClear(ArrayList<Perceptron> perceptrons, int epoqueCount) {
         for (int j = 0; j < epoqueCount; j++) {
-            final String targetLang = perceptron.getLanguage();
-            trainer.train(allLangTrainSets, perceptron, targetLang);
+            for (Perceptron perceptron : perceptrons) {
+                final String targetLang = perceptron.getLanguage();
+                Trainer.train(backupTrainSets, perceptron, targetLang);
+            }
         }
+
+        return perceptrons;
     }
 
 }

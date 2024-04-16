@@ -9,7 +9,7 @@ public class Trainer {
 
     // Dodać normalizację wektorów!!
 
-    public void train(List<LanguageObject> allLanguages, Perceptron perceptron, String targetLanguage) {
+    public static void train(List<LanguageObject> allLanguages, Perceptron perceptron, String targetLanguage) {
         for (LanguageObject lang : allLanguages) {
             final List<double[]> doublesForLanguage = lang.getDoublesForFiles();
             final int expectedY = lang.getLanguage().equals(targetLanguage) ? 1 : 0;
@@ -35,7 +35,7 @@ public class Trainer {
         }
     }
 
-    private double[] normalizeVector(double[] vector) {
+    private static double[] normalizeVector(double[] vector) {
         double norm = Math.sqrt(Arrays.stream(vector).map(v -> v * v).sum());
         return Arrays.stream(vector).map(v -> v / norm).toArray();
     }

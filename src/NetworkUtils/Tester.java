@@ -5,42 +5,47 @@ import DataUtils.LanguageObject;
 import java.util.*;
 
 public class Tester {
-    public static void testForTestSet(List<Perceptron> trainedPerceptrons, List<LanguageObject> testSets) {
+    public static void testForTestSet(ArrayList<Perceptron> trainedPerceptrons, List<LanguageObject> testSets) {
         for (LanguageObject testSet : testSets) {
-            final HashMap<String, Integer> langToYMap = new HashMap<>(); // Mapa do określenia języka.
-            final List<double[]> doublesForFiles = testSet.getDoublesForFiles(); // Lista wektorów dla plików z jednego katalogu zbioru testowego.
-
-            for (Perceptron trainedPerceptron : trainedPerceptrons) {
-                for (double[] vecForFile : doublesForFiles) {
-                    double net = 0.0;
-
-                    for (int i = 0; i < vecForFile.length; i++) {
-                        net += vecForFile[i] * trainedPerceptron.weights[i];
-                    }
-
-                    net -= trainedPerceptron.tVal;
-
-                    int y = net >= 0 ? 1 : 0;
-                    langToYMap.put(trainedPerceptron.getLanguage(), y);
-                }
-            }
+            final HashMap<String, Integer> langToYMap = outsMap(trainedPerceptrons, testSet);
 
             // Największa wartość y określa nam dany język (maximum selector).
-            // Dodać trenowanie dla jednego perceptronu, jeżeli nie ma max val w mapie... (!)
             System.out.println(STR."FOR DATA : \{testSet.getLanguage()}, LANG COMPUTED : \{langToYMap}");
         }
     }
 
-    private static boolean isMapGood(HashMap<String, Integer> langToYMap) {
-        final List<Integer> collect = langToYMap.values().stream().toList();
-        int oneQuantity = 0;
-        for (Integer i : collect) {
-            if (i == 1) {
-                oneQuantity++;
+    private static HashMap<String, Integer> outsMap(ArrayList<Perceptron> trainedPerceptrons, LanguageObject testSet) {
+        final HashMap<String, Double> langToNetMap = new HashMap<>(); // Mapa do określenia języka.
+        final List<double[]> doublesForFiles = testSet.getDoublesForFiles(); // Lista wektorów dla plików z jednego katalogu zbioru testowego.
+
+        for (Perceptron trainedPerceptron : trainedPerceptrons) {
+            for (double[] vecForFile : doublesForFiles) {
+                double net = 0.0;
+
+                for (int i = 0; i < vecForFile.length; i++) {
+                    net += vecForFile[i] * trainedPerceptron.weights[i];
+                }
+
+                net -= trainedPerceptron.tVal;
+
+                //int y = net >= 0 ? 1 : 0;
+                langToNetMap.put(trainedPerceptron.getLanguage(), net);
             }
         }
 
-        return oneQuantity == 1;
+        return finalOutsMap(langToNetMap);
+    }
+
+    private static HashMap<String, Integer> finalOutsMap(HashMap<String, Double> langToNetMap) {
+        // Największa wartość w mapie, będzie ona "aktywować" funkcję.
+        String languageWithMaxNet = Collections.max(langToNetMap.entrySet(), Map.Entry.comparingByValue()).getKey();
+
+        // Finalna mapa, która zawiera aktywowane i nieaktywowane perceptrony.
+        HashMap<String, Integer> finalMap = new HashMap<>();
+        langToNetMap.forEach((language, netValue) -> {
+            finalMap.put(language, language.equals(languageWithMaxNet) ? 1 : 0);
+        });
+        return finalMap;
     }
 
     private static double[] normalizeVector(double[] vector) {

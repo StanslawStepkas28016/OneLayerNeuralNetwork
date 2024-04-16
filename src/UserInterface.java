@@ -4,7 +4,6 @@ import DataUtils.LanguageObject;
 import NetworkUtils.NeuralNetworks;
 import NetworkUtils.Perceptron;
 import NetworkUtils.Tester;
-import NetworkUtils.Trainer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +21,8 @@ public class UserInterface {
 
         final int layersQuantity = trainSets.size(); // Ilość warstw sieci neuronowej.
         final ArrayList<Perceptron> perceptrons = NeuralNetworks.assignPerceptonsToNetwork(layersQuantity, learnRate); // Przypisanie perceptronów do sieci.
-        final List<Perceptron> trainedPerceptrons = NeuralNetworks.trainPerceptronsWithTrainSets(perceptrons, new Trainer(), trainSets, 10); // Lista wytrenowanych perceptronów (szerszy opis w klasie NeuralNetworks).
-
-        //printDoubleRatiosForLanguages(trainSets);
+        NeuralNetworks.backupTrainSets = trainSets; // Dodanie train-set jako backup, przy testowaniu (więcej nad zmienną w klasie).
+        final ArrayList<Perceptron> trainedPerceptrons = NeuralNetworks.trainPerceptronsWithTrainSets(perceptrons, trainSets, 25); // Lista wytrenowanych perceptronów (szerszy opis w klasie NeuralNetworks).
 
         final List<LanguageObject> testSets = ioUtility.readDirectories(testSetPath); // Czytanie katalogu test-set.
         LanguageObject.assignDoubleRatiosForLanguages(testSets); // Zamiana znaków na wektory wag liter w alfabecie.
@@ -32,7 +30,7 @@ public class UserInterface {
 
         do {
             final Scanner scStr = new Scanner(System.in);
-            System.out.print("Wprowadź tekst do klasyfikacji: ");
+            System.out.print("Wprowadź tekst do klasyfikacji : ");
             final String text = scStr.nextLine();
 
             final ArrayList<String> strings = new ArrayList<>();
@@ -44,7 +42,7 @@ public class UserInterface {
             Tester.testForTestSet(trainedPerceptrons, userTestSets); // Test na zbiorze od użytkownika.
 
             final Scanner scInt = new Scanner(System.in);
-            System.out.println("Czy chcesz podać tekst jeszcze raz (1 - Tak, 0 - Nie)?");
+            System.out.print("Czy chcesz podać tekst jeszcze raz (1 - Tak, 0 - Nie)? : ");
             final int i = scInt.nextInt();
 
             if (i == 0) {
