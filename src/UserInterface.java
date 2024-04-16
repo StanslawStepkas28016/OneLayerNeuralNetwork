@@ -31,11 +31,10 @@ public class UserInterface {
         LanguageObject.assignDoubleRatiosForLanguages(testSets); // Zamiana znaków na wektory wag liter w alfabecie.
         Tester.testForTestSet(trainedPerceptrons, testSets); // Przeprowadzenie testu dla zbioru testowego.
 
-        final Scanner sc = new Scanner(System.in);
-
         do {
+            final Scanner scStr = new Scanner(System.in);
             System.out.print("Wprowadź tekst do klasyfikacji: ");
-            final String text = sc.next();
+            final String text = scStr.next();
 
             final ArrayList<String> strings = new ArrayList<>();
             strings.add(text);
@@ -44,10 +43,11 @@ public class UserInterface {
             LanguageObject.assignDoubleRatiosForLanguages(userTestSet);
             Tester.testForTestSet(trainedPerceptrons, userTestSet); // Test na zbiorze od użytkownika.
 
+            final Scanner scInt = new Scanner(System.in);
             System.out.println("Czy chcesz podać tekst jeszcze raz (1 - Tak, 0 - Nie)?");
-            final int i = sc.nextInt();
+            final int i = scInt.nextInt();
 
-            if (i == 1) {
+            if (i == 0) {
                 break;
             }
         } while (true);
