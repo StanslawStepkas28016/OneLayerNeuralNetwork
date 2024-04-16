@@ -33,7 +33,7 @@ public class UserInterface {
         do {
             final Scanner scStr = new Scanner(System.in);
             System.out.print("Wprowadź tekst do klasyfikacji: ");
-            final String text = scStr.next();
+            final String text = scStr.nextLine();
 
             final ArrayList<String> strings = new ArrayList<>();
             strings.add(text);
