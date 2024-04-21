@@ -6,9 +6,6 @@ import java.util.*;
 
 public class Trainer {
     /* Każdy perceptron jest uczony danymi z każdego języka */
-
-    // Dodać normalizację wektorów!!
-
     public static void train(List<LanguageObject> allLanguages, Perceptron perceptron, String targetLanguage) {
         for (LanguageObject lang : allLanguages) {
             final List<double[]> doublesForLanguage = lang.getDoublesForFiles();
@@ -24,7 +21,8 @@ public class Trainer {
                 for (int i = 0; i < normalizedInputVector.length; i++) {
                     y += (normalizedInputVector[i] * perceptron.weights[i]);
                 }
-                y -= perceptron.tVal;
+
+                //y -= perceptron.tVal;
 
                 // Sprawdzenie, czy wymagane jest użycie reguły delta.
                 int net = y >= 0 ? 1 : 0;

@@ -21,7 +21,7 @@ public class UserInterface {
 
         final int layersQuantity = trainSets.size(); // Ilość warstw sieci neuronowej.
         final ArrayList<Perceptron> perceptrons = NeuralNetworks.assignPerceptonsToNetwork(layersQuantity, learnRate); // Przypisanie perceptronów do sieci.
-        NeuralNetworks.backupTrainSets = trainSets; // Dodanie train-set jako backup, przy testowaniu (więcej nad zmienną w klasie).
+        // NeuralNetworks.backupTrainSets = trainSets; // Dodanie train-set jako backup, przy testowaniu (więcej nad zmienną w klasie).
         final ArrayList<Perceptron> trainedPerceptrons = NeuralNetworks.trainPerceptronsWithTrainSets(perceptrons, trainSets, 25); // Lista wytrenowanych perceptronów (szerszy opis w klasie NeuralNetworks).
 
         do {

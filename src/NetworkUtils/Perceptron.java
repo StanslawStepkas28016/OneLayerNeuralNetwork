@@ -12,7 +12,7 @@ public class Perceptron {
     public Perceptron(Integer dataVectorSize, Double learnRate) {
         this.dataVectorSize = dataVectorSize;
         this.learnRate = learnRate;
-        this.tVal = 1.0; // Defaultowo 1, zmieniane, przy okazji deltaRule.
+        // this.tVal = 1.0; // Defaultowo 1, zmieniane, przy okazji deltaRule.
 
         weights = new double[dataVectorSize];
         Random random = new Random();
@@ -40,7 +40,7 @@ public class Perceptron {
         }
 
         // Wyliczenie nowego t (t’= t - (d-y) * 𝛼).
-        tVal = tVal - (expectedValue - receivedValue) * learnRate;
+        // tVal = tVal - (expectedValue - receivedValue) * learnRate;
 
         // Inicjalizacja pola weights nowym wektorem wag.
         weights = newWeights;

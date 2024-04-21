@@ -43,7 +43,7 @@ public class NeuralNetworks {
         return perceptrons;
     }
 
-    public static List<LanguageObject> backupTrainSets;
+    /*public static List<LanguageObject> backupTrainSets;
 
     public static ArrayList<Perceptron> trainPerceptronsWithTrainSetsWhenOutNotClear(ArrayList<Perceptron> perceptrons, int epoqueCount) {
         for (int j = 0; j < epoqueCount; j++) {
@@ -54,6 +54,6 @@ public class NeuralNetworks {
         }
 
         return perceptrons;
-    }
+    }*/
 
 }

@@ -26,7 +26,7 @@ public class Tester {
                     net += vecForFile[i] * trainedPerceptron.weights[i];
                 }
 
-                net -= trainedPerceptron.tVal;
+                // net -= trainedPerceptron.tVal;
 
                 //int y = net >= 0 ? 1 : 0;
                 langToNetMap.put(trainedPerceptron.getLanguage(), net);
